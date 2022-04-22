@@ -2,7 +2,7 @@ import React from 'react';
 import { db } from '../database/db';
 import { collection, getDocs } from "firebase/firestore";
 import { Box, Button, Grid, ImageList, ImageListItem } from '@mui/material';
-import MovieCard from '../components/MovieCard';
+import { Link } from 'react-router-dom';
 
 const Home = (): React.ReactElement => {
     const test = async () => {
@@ -34,7 +34,11 @@ const Home = (): React.ReactElement => {
                     <div className="flex flex-col justify-center h-full w-1/3 pl-12">
                         <h1 className="text-white font-extrabold text-2xl">Seach your favourite movies</h1>
                         <p className="text-white py-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quae, est!</p>
-                        <Button variant="contained" className="w-24">Search</Button>
+                        <Button variant="contained" className="w-24">
+                            <Link to="/search">
+                                Search
+                            </Link>
+                        </Button>
                     </div>
                 </Box>
             </div>

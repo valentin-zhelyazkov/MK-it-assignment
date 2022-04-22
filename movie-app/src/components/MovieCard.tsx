@@ -1,17 +1,60 @@
-import { Card, CardMedia } from '@mui/material';
-import React from 'react';
+import { Box, Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import React, { useState } from 'react';
 
-const MovieCard = () : React.ReactElement => {
+type CardProps = {
+    title: string,
+    img: string,
+    genre: string,
+    duration: string,
+    description: string,
+    site: string,
+}
 
+const MovieCard = ({ title, img, genre, duration, description, site } : CardProps): React.ReactElement => {
+    const [isLiked, setIsLiked] = useState(localStorage.getItem('like'));
+
+    const onSave = () => {
+        const like = localStorage.getItem('like');
+
+        if(like === 'true') {
+            localStorage.setItem('like', 'false');
+            setIsLiked(localStorage.getItem('like'));
+        } else {
+            localStorage.setItem('like', 'true');
+            setIsLiked(localStorage.getItem('like'));
+        }
+    }
     return (
-            <Card>
-                <CardMedia
-                    component="img"
-                    image="https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_UY1200_CR90,0,630,1200_AL_.jpg"
-                    alt="green iguana"
-                    className="max-w-full max-h-full object-cover"
-                />
-            </Card >
+        <Card sx={{ display: 'flex' }}>
+            <CardMedia
+                component="img"
+                sx={{ width: 151 }}
+                image={img}
+                alt="Movie image"
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <CardContent sx={{ flex: '1 0 auto' }}>
+                    <Typography component="div" variant="h5">
+                        {title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary" component="div">
+                        {genre} | {duration}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary" component="div">
+                        {description}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary" component="div">
+                        <a href={site}>Visit official site</a>
+                    </Typography>
+                </CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+                    {isLiked === "false" ? 
+                    <Button variant="outlined" onClick={onSave}>Add To Favourite</Button> : 
+                    <Button variant="outlined" onClick={onSave}>Remove From Favourite</Button>
+                    }
+                </Box>
+            </Box>
+        </Card>
     );
 }
 
