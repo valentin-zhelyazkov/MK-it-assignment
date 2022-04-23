@@ -1,7 +1,9 @@
 import { Box, Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 type CardProps = {
+    id: number
     title: string,
     img: string,
     genre: string[],
@@ -10,13 +12,13 @@ type CardProps = {
     site: string,
 };
 
-const MovieCard = ({ title, img, genre, duration, description, site } : CardProps): React.ReactElement => {
+const MovieCard = ({ id, title, img, genre, duration, description, site }: CardProps): React.ReactElement => {
     const [isLiked, setIsLiked] = useState(localStorage.getItem('like'));
 
     const onSave = () => {
         const like = localStorage.getItem('like');
 
-        if(like === 'true') {
+        if (like === 'true') {
             localStorage.setItem('like', 'false');
             setIsLiked(localStorage.getItem('like'));
         } else {
@@ -34,9 +36,11 @@ const MovieCard = ({ title, img, genre, duration, description, site } : CardProp
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography component="div" variant="h5">
-                        {title}
-                    </Typography>
+                    <Link to={`/details/${id}`}>
+                        <Typography component="div" variant="h5">
+                            {title}
+                        </Typography>
+                    </Link>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
                         {genre} | {duration}
                     </Typography>
@@ -48,9 +52,9 @@ const MovieCard = ({ title, img, genre, duration, description, site } : CardProp
                     </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                    {isLiked === "false" ? 
-                    <Button variant="outlined" onClick={onSave}>Add To Favourite</Button> : 
-                    <Button variant="outlined" onClick={onSave}>Remove From Favourite</Button>
+                    {isLiked === "false" ?
+                        <Button variant="outlined" onClick={onSave}>Add To Favourite</Button> :
+                        <Button variant="outlined" onClick={onSave}>Remove From Favourite</Button>
                     }
                 </Box>
             </Box>

@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
 import { Box, Rating, TextField } from '@mui/material';
 import MovieCard from '../components/MovieCard';
+import { useParams } from 'react-router-dom';
+import MovieDataContext from '../context/MovieDataContext';
 
 const MovieDetails = (): React.ReactElement => {
     const [value, setValue] = useState<number | null>(0);
+    const [currrentMovie, setCurrentMovie] = React.useState();
+    const { movieData } = React.useContext(MovieDataContext);
+    //@ts-ignore
+    const { id } = useParams();
+    //@ts-ignore
+    const movie = movieData.data.find((movie): any => {
+        return movie.show.id === Number(id);
+    })
 
     return (
         <div className="px-56 py-10">
-            {/* <MovieCard key={'a'}  title={'a'} img={'https://pbs.twimg.com/profile_images/758084549821730820/_HYHtD8F_400x400.jpg'} genre={['a', 'b']} duration={'150'} description={'a'} site={'a'} /> */}
+            <MovieCard
+                id={movie.show.id}
+                title={movie.show.name}
+                img={movie.show.image?.original || 'https://st3.depositphotos.com/1322515/35964/v/1600/depositphotos_359648638-stock-illustration-image-available-icon.jpg'}
+                genre={movie.show.genre}
+                duration={movie.show.runtime}
+                description={movie.show.summary}
+                site={movie.show.url}
+            />
             <h2 className="pt-24 text-3xl">Your review</h2>
             <Box
                 sx={{
