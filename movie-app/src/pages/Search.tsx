@@ -1,10 +1,27 @@
+//@ts-nocheck
 import React from 'react';
 import MovieCard from '../components/MovieCard';
+import MovieDataContext from '../context/MovieDataContext';
 
 const Search = (): React.ReactElement => {
+    const { movieData } = React.useContext(MovieDataContext);
+    movieData.data.map(movie => {console.log(movie.show.image)})
     return (
         <div className="px-10 py-4">
-            <MovieCard title={'a'} img={'https://pbs.twimg.com/profile_images/758084549821730820/_HYHtD8F_400x400.jpg'} genre={'a'} duration={'150'} description={'a'} site={'a'} />
+            {movieData.data?.map((movie, i): any => {
+                return (
+                    <div key={i}>
+                        <MovieCard
+                            title={movie.show.name}
+                            img={movie.show.image?.original || 'https://st3.depositphotos.com/1322515/35964/v/1600/depositphotos_359648638-stock-illustration-image-available-icon.jpg'}
+                            genre={movie.show.genre}
+                            duration={movie.show.runtime}
+                            description={movie.show.summary}
+                            site={movie.show.url}
+                        />
+                    </div>
+                )
+            })}
         </div>
     );
 }

@@ -3,11 +3,13 @@ import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import Axios from 'axios';
+import MovieDataContext from '../context/MovieDataContext';
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -51,6 +53,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  const [movie, setMovie] = React.useState();
+  const { populateMovieData } = React.useContext(MovieDataContext);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    //@ts-ignore
+    Axios.get(`https://api.tvmaze.com/search/shows?q=${movie}`).then((res: any) => {
+      //@ts-ignore
+      populateMovieData(res);
+    });
+  }, [movie]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: "grey" }}>
@@ -61,7 +75,9 @@ export default function SearchAppBar() {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            My Movie Collection
+            <Link to="/">
+              My Movie Collection
+            </Link>
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -70,7 +86,14 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              //@ts-ignore
+              onChange={(e) => setMovie(e.target.value)}
             />
+            <Button variant="outlined">
+              <Link to='/search'>
+                Search
+              </Link>
+            </Button>
           </Search>
         </Toolbar>
       </AppBar>

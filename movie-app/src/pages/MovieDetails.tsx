@@ -7,7 +7,7 @@ const MovieDetails = (): React.ReactElement => {
 
     return (
         <div className="px-56 py-10">
-            <MovieCard title={'a'} img={'https://pbs.twimg.com/profile_images/758084549821730820/_HYHtD8F_400x400.jpg'} genre={'a'} duration={'150'} description={'a'} site={'a'} />
+            {/* <MovieCard key={'a'}  title={'a'} img={'https://pbs.twimg.com/profile_images/758084549821730820/_HYHtD8F_400x400.jpg'} genre={['a', 'b']} duration={'150'} description={'a'} site={'a'} /> */}
             <h2 className="pt-24 text-3xl">Your review</h2>
             <Box
                 sx={{

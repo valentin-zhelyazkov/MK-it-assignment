@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 type CardProps = {
     title: string,
     img: string,
-    genre: string,
+    genre: string[],
     duration: string,
     description: string,
     site: string,
-}
+};
 
 const MovieCard = ({ title, img, genre, duration, description, site } : CardProps): React.ReactElement => {
     const [isLiked, setIsLiked] = useState(localStorage.getItem('like'));
