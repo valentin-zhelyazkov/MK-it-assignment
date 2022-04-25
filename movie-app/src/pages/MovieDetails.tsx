@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Rating, TextField } from '@mui/material';
 import MovieCard from '../components/MovieCard';
 import { useParams } from 'react-router-dom';
 import MovieDataContext from '../context/MovieDataContext';
 
 const MovieDetails = (): React.ReactElement => {
-    const [value, setValue] = useState<number | null>(0);
+    const [value, setValue] = React.useState<number | null>(0);
+    const [note, setNote] = React.useState<string>();
     const { movieData } = React.useContext(MovieDataContext);
+
     const { id } = useParams();
     //@ts-ignore
-    const movie = movieData.data.find((movie): any => {
+    const movie = movieData.data.find((movie) => {
         return movie.show.id === Number(id);
-    })
+    });
+
 
     return (
         <div className="px-56 py-10">
@@ -49,9 +52,10 @@ const MovieDetails = (): React.ReactElement => {
                 type="text"
                 rows={8}
                 sx={{ width: '50%' }}
+                onChange={(e) => e.target.value}
             />
         </div>
     );
 }
 
-export default MovieDetails
+export default MovieDetails;

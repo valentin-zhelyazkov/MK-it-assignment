@@ -1,16 +1,16 @@
-//@ts-nocheck
 import React from 'react';
 import { Box, TextField, Button } from '@mui/material';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../database/db';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const Register = (): React.ReactElement => {
     const [email, setEmail] = React.useState();
     const [password, setPassword] = React.useState();
     const navigate = useNavigate();
 
     const onRegister = () => {
+        //@ts-ignore
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 navigate('/login');

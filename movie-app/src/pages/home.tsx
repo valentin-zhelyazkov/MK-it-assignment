@@ -1,22 +1,27 @@
-//@ts-nocheck
-import React, { useState } from 'react';
+import React from 'react';
 import { auth, db } from '../database/db';
 import { collection, getDocs } from "firebase/firestore";
 import { Box, Button, ImageList, ImageListItem } from '@mui/material';
 import { Link } from 'react-router-dom';
+import MovieDataContext from '../context/MovieDataContext';
 
 const Home = (): React.ReactElement => {
-    console.log('render');
-    const [movies, setMovies] = useState([]);
+    const [movies, setMovies] = React.useState([]);
+    const { movieData } = React.useContext(MovieDataContext);
+    console.log(movieData);
 
     function getMovies() {
         getDocs(collection(db, "movies")).then((fetchedMovies) => {
             for (let movie of fetchedMovies.docs) {
+                console.log(movie.data());
+                //@ts-ignore
                 if (auth.currentUser.uid === movie.data().userID) {
+                    //@ts-ignore
                     setMovies(prevState => [...prevState, movie.data()]);
                 }
             }
         })
+
     }
 
     React.useEffect(() => {
@@ -51,6 +56,7 @@ const Home = (): React.ReactElement => {
                 {movies.map((item, index) => (
                     <ImageListItem key={index}>
                         <img
+                            //@ts-ignore
                             src={item.img}
                             alt={item}
                         />

@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React from 'react';
 import MovieCard from '../components/MovieCard';
 import MovieDataContext from '../context/MovieDataContext';
@@ -7,7 +6,8 @@ const Search = (): React.ReactElement => {
     const { movieData } = React.useContext(MovieDataContext);
     return (
         <div className="px-10 py-4">
-            {movieData.data?.map((movie, i): any => {
+            {//@ts-ignore
+            movieData.data.map((movie, i): any => {
                 return (
                     <div key={i}>
                         <MovieCard
@@ -21,7 +21,8 @@ const Search = (): React.ReactElement => {
                         />
                     </div>
                 )
-            })}
+            })
+            }
         </div>
     );
 }

@@ -1,17 +1,17 @@
-//@ts-nocheck
 import React from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../database/db';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = (): React.ReactElement => {
     const [email, setEmail] = React.useState();
     const [password, setPassword] = React.useState();
 
     const navigate = useNavigate();
 
     const onLogin = () => {
+        //@ts-ignore
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 navigate('/');

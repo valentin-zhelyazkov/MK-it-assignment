@@ -1,9 +1,9 @@
 import { Box, Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../database/db';
 import { db } from '../database/db';
-import { collection, getDocs, setDoc, doc, addDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 type CardProps = {
     id: number
@@ -25,11 +25,14 @@ const MovieCard = ({ id, title, img, genre, duration, description, site }: CardP
             duration,
             description,
             site,
-            userID
+            userID,
+            isAdd: false,
+            rating: 0,
         }
 
         await addDoc(collection(db, 'movies'), movie);
     }
+
     return (
         <Card sx={{ display: 'flex' }}>
             <CardMedia
@@ -58,7 +61,7 @@ const MovieCard = ({ id, title, img, genre, duration, description, site }: CardP
                 <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
                     {true ?
                         <Button variant="outlined" onClick={onSave}>Add To Favourite</Button> :
-                        <Button variant="outlined" onClick={onSave}>Remove From Favourite</Button>
+                        <Button variant="outlined" onClick={onSave}>Remove From Favourite</Button> 
                     }
                 </Box>
             </Box>

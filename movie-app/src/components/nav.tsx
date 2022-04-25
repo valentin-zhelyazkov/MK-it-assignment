@@ -68,12 +68,9 @@ export default function SearchAppBar() {
     });
   }, [movie]);
 
-  // React.useEffect(() => {
-  //   navigate('/login');
-  // }, [user]);
-
   const onLogout = () => {
     signOut(auth);
+    navigate('/login');
   };
 
   return (
