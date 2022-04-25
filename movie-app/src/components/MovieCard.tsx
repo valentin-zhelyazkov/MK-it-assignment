@@ -1,6 +1,9 @@
 import { Box, Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { auth } from '../database/db';
+import { db } from '../database/db';
+import { collection, getDocs, setDoc, doc, addDoc } from "firebase/firestore";
 
 type CardProps = {
     id: number
@@ -13,18 +16,19 @@ type CardProps = {
 };
 
 const MovieCard = ({ id, title, img, genre, duration, description, site }: CardProps): React.ReactElement => {
-    const [isLiked, setIsLiked] = useState(localStorage.getItem('like'));
-
-    const onSave = () => {
-        const like = localStorage.getItem('like');
-
-        if (like === 'true') {
-            localStorage.setItem('like', 'false');
-            setIsLiked(localStorage.getItem('like'));
-        } else {
-            localStorage.setItem('like', 'true');
-            setIsLiked(localStorage.getItem('like'));
+    const onSave = async () => {
+        const userID = auth.currentUser?.uid;
+        const movie = {
+            id,
+            title,
+            img,
+            duration,
+            description,
+            site,
+            userID
         }
+
+        await addDoc(collection(db, 'movies'), movie);
     }
     return (
         <Card sx={{ display: 'flex' }}>
@@ -52,7 +56,7 @@ const MovieCard = ({ id, title, img, genre, duration, description, site }: CardP
                     </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                    {isLiked === "false" ?
+                    {true ?
                         <Button variant="outlined" onClick={onSave}>Add To Favourite</Button> :
                         <Button variant="outlined" onClick={onSave}>Remove From Favourite</Button>
                     }

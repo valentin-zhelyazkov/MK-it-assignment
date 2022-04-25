@@ -1,8 +1,7 @@
-//@ts-nocheck
 import React, { useState } from 'react';
 interface IMovieDataContext {
   movieData: {};
-  populateMovieData: () => void;
+  populateMovieData: React.SetStateAction<{}>;
 }
 const defaultState = {
   movieData: {},
@@ -15,7 +14,7 @@ type MocieDataProps = {
 };
 export const MovieDataProvider = ({ children }: MocieDataProps) => {
   const [movieData, setMovieData] = useState(defaultState.movieData);
-  const populateMovieData = (data) => {
+  const populateMovieData = (data: React.SetStateAction<{}>) => {
     setMovieData(data);
   };
 

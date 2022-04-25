@@ -6,9 +6,7 @@ import MovieDataContext from '../context/MovieDataContext';
 
 const MovieDetails = (): React.ReactElement => {
     const [value, setValue] = useState<number | null>(0);
-    const [currrentMovie, setCurrentMovie] = React.useState();
     const { movieData } = React.useContext(MovieDataContext);
-    //@ts-ignore
     const { id } = useParams();
     //@ts-ignore
     const movie = movieData.data.find((movie): any => {
@@ -20,7 +18,11 @@ const MovieDetails = (): React.ReactElement => {
             <MovieCard
                 id={movie.show.id}
                 title={movie.show.name}
-                img={movie.show.image?.original || 'https://st3.depositphotos.com/1322515/35964/v/1600/depositphotos_359648638-stock-illustration-image-available-icon.jpg'}
+                img=
+                {
+                    movie.show.image?.original ||
+                    'https://st3.depositphotos.com/1322515/35964/v/1600/depositphotos_359648638-stock-illustration-image-available-icon.jpg'
+                }
                 genre={movie.show.genre}
                 duration={movie.show.runtime}
                 description={movie.show.summary}

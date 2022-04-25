@@ -8,8 +8,11 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Axios from 'axios';
 import MovieDataContext from '../context/MovieDataContext';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from '@mui/material';
+import { auth } from '../database/db';
+import { signOut } from 'firebase/auth';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -53,17 +56,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const [movie, setMovie] = React.useState();
+  const [movie, setMovie] = React.useState<string>();
+  const [user, loading, error] = useAuthState(auth);
   const { populateMovieData } = React.useContext(MovieDataContext);
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    //@ts-ignore
     Axios.get(`https://api.tvmaze.com/search/shows?q=${movie}`).then((res: any) => {
       //@ts-ignore
       populateMovieData(res);
     });
   }, [movie]);
+
+  // React.useEffect(() => {
+  //   navigate('/login');
+  // }, [user]);
+
+  const onLogout = () => {
+    signOut(auth);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -78,6 +89,16 @@ export default function SearchAppBar() {
             <Link to="/">
               My Movie Collection
             </Link>
+            {user ? <Button onClick={onLogout}>Logout</Button> :
+              <>
+                <Link to="/login">
+                  Login
+                </Link>
+                <Link to="/register">
+                  Register
+                </Link>
+              </>
+            }
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -86,7 +107,6 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
-              //@ts-ignore
               onChange={(e) => setMovie(e.target.value)}
             />
             <Button variant="outlined">

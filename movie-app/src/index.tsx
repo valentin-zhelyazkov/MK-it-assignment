@@ -11,13 +11,12 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <MovieDataProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </MovieDataProvider>
-  </React.StrictMode>
+
+  <MovieDataProvider>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  </MovieDataProvider>
 );
 
 reportWebVitals();

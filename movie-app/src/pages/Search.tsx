@@ -5,7 +5,6 @@ import MovieDataContext from '../context/MovieDataContext';
 
 const Search = (): React.ReactElement => {
     const { movieData } = React.useContext(MovieDataContext);
-    
     return (
         <div className="px-10 py-4">
             {movieData.data?.map((movie, i): any => {
