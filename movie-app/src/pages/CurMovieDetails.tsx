@@ -3,13 +3,11 @@ import React from 'react';
 import { Box, Rating, TextField } from '@mui/material';
 import MovieCard from '../components/MovieCard';
 import { useParams } from 'react-router-dom';
-import { getDocs, collection, updateDoc, doc, getDoc } from 'firebase/firestore';
+import { getDocs, collection, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../database/db';
-import { CleaningServicesRounded } from '@mui/icons-material';
 
 const CurMovieDetails = () => {
     const { id } = useParams();
-
     const [value, setValue] = React.useState<number | null>(0);
     const [note, setNote] = React.useState<string>();
     const [movies, setMovies] = React.useState([]);
@@ -24,6 +22,18 @@ const CurMovieDetails = () => {
             }
         })
     }
+
+    const updateRating = async (id, rating) => {
+        const userDoc = doc(db, "movies", id);
+        const newFields = { rating: rating };
+        await updateDoc(userDoc, newFields);
+    };
+
+    const updateNote = async (id, note) => {
+        const userDoc = doc(db, "movies", id);
+        const newFields = { note: note };
+        await updateDoc(userDoc, newFields);
+    };
 
     React.useEffect(() => {
         getMovies();
@@ -44,7 +54,7 @@ const CurMovieDetails = () => {
                                     movie.img ||
                                     'https://st3.depositphotos.com/1322515/35964/v/1600/depositphotos_359648638-stock-illustration-image-available-icon.jpg'
                                 }
-                                genre={'movie.genre'}
+                                genre={'genre'}
                                 duration={movie.duration}
                                 description={movie.description}
                                 site={movie.site}
@@ -57,9 +67,10 @@ const CurMovieDetails = () => {
                                 <Rating
                                     name="simple-controlled"
                                     size="large"
-                                    value={value}
-                                    onChange={(event, newValue) => {
-                                        setValue(newValue);
+                                    defaultValue={movie.rating}
+                                    onChange={(event, rating) => {
+                                        setValue(rating);
+                                        updateRating(id, rating)
                                     }}
                                 />
                             </Box>
@@ -69,6 +80,8 @@ const CurMovieDetails = () => {
                                 type="text"
                                 rows={8}
                                 sx={{ width: '50%' }}
+                                defaultValue={movie.note}
+                                onChange={(e) => updateNote(id, e.target.value)}
                             />
                         </>)
                     })
