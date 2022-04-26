@@ -17,6 +17,7 @@ type CardProps = {
 
 const MovieCard = ({ id, title, img, genre, duration, description, site }: CardProps): React.ReactElement => {
     const navigate = useNavigate();
+    
     const onSave = async () => {
         const userID = auth.currentUser?.uid;
         const movie = {
@@ -52,7 +53,7 @@ const MovieCard = ({ id, title, img, genre, duration, description, site }: CardP
                         </Typography>
                     </Link>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
-                        {genre} | {duration}
+                        {genre} | {duration} min
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
                         {description}
@@ -63,7 +64,7 @@ const MovieCard = ({ id, title, img, genre, duration, description, site }: CardP
                 </CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
                     {true ?
-                        <Button variant="outlined" onClick={onSave}>Add To Favourite</Button> :
+                        <Button variant="outlined" color="success" onClick={onSave}>Add To Favourite</Button> :
                         <Button variant="outlined" onClick={onSave}>Remove From Favourite</Button> 
                     }
                 </Box>

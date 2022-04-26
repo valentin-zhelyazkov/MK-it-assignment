@@ -8,16 +8,12 @@ import { db } from '../database/db';
 
 const CurMovieDetails = () => {
     const { id } = useParams();
-    const [value, setValue] = React.useState<number | null>(0);
-    const [note, setNote] = React.useState<string>();
     const [movies, setMovies] = React.useState([]);
 
     function getMovies() {
         getDocs(collection(db, "movies")).then((fetchedMovies) => {
             for (let movie of fetchedMovies.docs) {
-                //@ts-ignore
                 const setMovieWithId = { ...movie.data(), movieId: movie.id };
-                // //@ts-ignore
                 setMovies(prevState => [...prevState, setMovieWithId]);
             }
         })
@@ -72,6 +68,7 @@ const CurMovieDetails = () => {
                                         setValue(rating);
                                         updateRating(id, rating)
                                     }}
+                                    className="mt-6"
                                 />
                             </Box>
                             <TextField
@@ -82,6 +79,7 @@ const CurMovieDetails = () => {
                                 sx={{ width: '50%' }}
                                 defaultValue={movie.note}
                                 onChange={(e) => updateNote(id, e.target.value)}
+                                margin="normal"
                             />
                         </>)
                     })

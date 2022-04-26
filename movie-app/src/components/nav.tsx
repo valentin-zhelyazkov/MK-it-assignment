@@ -75,7 +75,7 @@ export default function SearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ background: "grey" }}>
+      <AppBar position="static" sx={{ background: "#0000006b", color: "yellow" }}>
         <Toolbar>
           <Typography
             variant="h6"
@@ -86,12 +86,12 @@ export default function SearchAppBar() {
             <Link to="/">
               My Movie Collection
             </Link>
-            {user ? <Button onClick={onLogout}>Logout</Button> :
+            {user ? <Button variant="text" color="error" onClick={onLogout}>Logout</Button> :
               <>
-                <Link to="/login">
+                <Link to="/login" className="mx-4">
                   Login
                 </Link>
-                <Link to="/register">
+                <Link to="/register" className="mx-4">
                   Register
                 </Link>
               </>
@@ -107,7 +107,7 @@ export default function SearchAppBar() {
               onChange={(e) => setMovie(e.target.value)}
             />
             <Button variant="outlined">
-              <Link to='/search'>
+              <Link to='/search' className="decoration-white">
                 Search
               </Link>
             </Button>

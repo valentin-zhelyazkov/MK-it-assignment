@@ -1,9 +1,9 @@
+//@ts-nocheck
 import React from 'react';
-import { Box, Rating, TextField } from '@mui/material';
 import MovieCard from '../components/MovieCard';
 import { useParams } from 'react-router-dom';
 import MovieDataContext from '../context/MovieDataContext';
-import { getDocs, collection, updateDoc, doc } from 'firebase/firestore';
+import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../database/db';
 
 const MovieDetails = (): React.ReactElement => {
@@ -11,39 +11,14 @@ const MovieDetails = (): React.ReactElement => {
     const [movies, setMovies] = React.useState();
 
     const { id } = useParams();
-    //@ts-ignore
+
     const movie = movieData.data.find((movie) => {
         return movie.show.id === Number(id);
     });
-    //@ts-ignore
-    const updateMovieRating = async (rating) => {
-        //@ts-ignore
-        const curMovie = movies.find((ratingMovie) => {
-            return ratingMovie.id === movie.show.id
-        });
-
-        const userDoc = doc(db, "movies", curMovie.movieId);
-        const newFields = { rating: rating };
-        await updateDoc(userDoc, newFields);
-    };
-
-    //@ts-ignore
-    const updateMovieNote = async (note) => {
-        //@ts-ignore
-        const curMovie = movies.find((noteMovie) => {
-            return noteMovie.id === movie.show.id
-        });
-
-        const userDoc = doc(db, "movies", curMovie.movieId);
-        const newFields = { note: note };
-        await updateDoc(userDoc, newFields);
-    };
 
     React.useEffect(() => {
         const getMovies = async () => {
-            //@ts-ignore
             const data = await getDocs(collection(db, 'movies'));
-            //@ts-ignore
             setMovies(data.docs.map((doc) => ({ ...doc.data(), movieId: doc.id })));
         }
         getMovies();
