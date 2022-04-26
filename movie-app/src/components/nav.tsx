@@ -86,9 +86,9 @@ export default function SearchAppBar() {
             <Link to="/">
               My Movie Collection
             </Link>
-            {user ? <Button variant="text" color="error" onClick={onLogout}>Logout</Button> :
+            {user ? <Button variant="text" color="error" className="ml-8" sx={{ marginLeft: "10px" }}onClick={onLogout}>Logout</Button> :
               <>
-                <Link to="/login" className="mx-4">
+                <Link to="/login" className="mx-4 ml-8">
                   Login
                 </Link>
                 <Link to="/register" className="mx-4">
