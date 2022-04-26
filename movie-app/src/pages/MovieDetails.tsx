@@ -7,8 +7,6 @@ import { getDocs, collection, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../database/db';
 
 const MovieDetails = (): React.ReactElement => {
-    const [value, setValue] = React.useState<number | null>(0);
-    const [note, setNote] = React.useState<string>();
     const { movieData } = React.useContext(MovieDataContext);
     const [movies, setMovies] = React.useState();
 
@@ -65,30 +63,6 @@ const MovieDetails = (): React.ReactElement => {
                 duration={movie.show.runtime}
                 description={movie.show.summary}
                 site={movie.show.url}
-            />
-            <h2 className="pt-24 text-3xl">Your review</h2>
-            <Box
-                sx={{
-                    '& > legend': { mt: 2 },
-                }}
-            >
-                <Rating
-                    name="simple-controlled"
-                    size="large"
-                    value={value}
-                    onChange={(event, newValue) => {
-                        setValue(newValue);
-                        updateMovieRating(newValue);
-                    }}
-                />
-            </Box>
-            <TextField
-                multiline={true}
-                id="data"
-                type="text"
-                rows={8}
-                sx={{ width: '50%' }}
-                onChange={(e) => updateMovieNote(e.target.value)}
             />
         </div>
     );

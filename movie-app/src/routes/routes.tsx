@@ -5,7 +5,7 @@ import Login from "../pages/login";
 import MovieDetails from "../pages/MovieDetails";
 import Register from "../pages/register";
 import Search from "../pages/Search";
-import Test from "../pages/test";
+import CurMovieDetails from "../pages/CurMovieDetails";
 
 const AppRoutes = () : React.ReactElement => {
     return (
@@ -14,7 +14,7 @@ const AppRoutes = () : React.ReactElement => {
                 <Route index element={<Home />}/>
                 <Route path="search" element={<Search />}/>
                 <Route path="details/:id" element={<MovieDetails />}/>
-                <Route path="detailsMovie/:id" element={<Test />}/>
+                <Route path="detailsMovie/:id" element={<CurMovieDetails />}/>
                 <Route path="register" element={<Register />}/>
                 <Route path="login" element={<Login />}/>
             </Route>

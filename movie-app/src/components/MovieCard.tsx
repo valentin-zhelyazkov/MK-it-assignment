@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../database/db';
 import { db } from '../database/db';
 import { collection, addDoc } from "firebase/firestore";
@@ -16,6 +16,7 @@ type CardProps = {
 };
 
 const MovieCard = ({ id, title, img, genre, duration, description, site }: CardProps): React.ReactElement => {
+    const navigate = useNavigate();
     const onSave = async () => {
         const userID = auth.currentUser?.uid;
         const movie = {
@@ -32,6 +33,7 @@ const MovieCard = ({ id, title, img, genre, duration, description, site }: CardP
         }
 
         await addDoc(collection(db, 'movies'), movie);
+        navigate('/');
     }
 
     return (
