@@ -7,13 +7,10 @@ import MovieDataContext from '../context/MovieDataContext';
 
 const Home = (): React.ReactElement => {
     const [movies, setMovies] = React.useState([]);
-    const { movieData } = React.useContext(MovieDataContext);
-    console.log(movieData);
 
     function getMovies() {
         getDocs(collection(db, "movies")).then((fetchedMovies) => {
             for (let movie of fetchedMovies.docs) {
-                console.log(movie.data());
                 //@ts-ignore
                 if (auth.currentUser.uid === movie.data().userID) {
                     //@ts-ignore

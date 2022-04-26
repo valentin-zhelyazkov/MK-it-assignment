@@ -28,6 +28,7 @@ const MovieCard = ({ id, title, img, genre, duration, description, site }: CardP
             userID,
             isAdd: false,
             rating: 0,
+            note: '',
         }
 
         await addDoc(collection(db, 'movies'), movie);

@@ -3,18 +3,57 @@ import { Box, Rating, TextField } from '@mui/material';
 import MovieCard from '../components/MovieCard';
 import { useParams } from 'react-router-dom';
 import MovieDataContext from '../context/MovieDataContext';
+import { getDocs, collection, updateDoc, doc } from 'firebase/firestore';
+import { db } from '../database/db';
 
 const MovieDetails = (): React.ReactElement => {
     const [value, setValue] = React.useState<number | null>(0);
     const [note, setNote] = React.useState<string>();
     const { movieData } = React.useContext(MovieDataContext);
+    const [movies, setMovies] = React.useState();
 
     const { id } = useParams();
     //@ts-ignore
     const movie = movieData.data.find((movie) => {
         return movie.show.id === Number(id);
     });
+    //@ts-ignore
+    const curMovie = movies.find((ratingMovie) => {
+        return ratingMovie.id === movie.show.id
+    });
+    //@ts-ignore
+    const updateMovieRating = async (rating) => {
+        //@ts-ignore
+        const curMovie = movies.find((ratingMovie) => {
+            return ratingMovie.id === movie.show.id
+        });
 
+        const userDoc = doc(db, "movies", curMovie.movieId);
+        const newFields = { rating: rating };
+        await updateDoc(userDoc, newFields);
+    };
+
+    //@ts-ignore
+    const updateMovieNote = async (note) => {
+        //@ts-ignore
+        const curMovie = movies.find((noteMovie) => {
+            return noteMovie.id === movie.show.id
+        });
+        console.log('note', note);
+        const userDoc = doc(db, "movies", curMovie.movieId);
+        const newFields = { note: note };
+        await updateDoc(userDoc, newFields);
+    };
+
+    React.useEffect(() => {
+        const getMovies = async () => {
+            //@ts-ignore
+            const data = await getDocs(collection(db, 'movies'));
+            //@ts-ignore
+            setMovies(data.docs.map((doc) => ({ ...doc.data(), movieId: doc.id })));
+        }
+        getMovies();
+    }, []);
 
     return (
         <div className="px-56 py-10">
@@ -40,9 +79,11 @@ const MovieDetails = (): React.ReactElement => {
                 <Rating
                     name="simple-controlled"
                     size="large"
-                    value={value}
+                    value={curMovie.rating}
+                    defaultValue={curMovie.rating}
                     onChange={(event, newValue) => {
                         setValue(newValue);
+                        updateMovieRating(newValue);
                     }}
                 />
             </Box>
@@ -52,7 +93,8 @@ const MovieDetails = (): React.ReactElement => {
                 type="text"
                 rows={8}
                 sx={{ width: '50%' }}
-                onChange={(e) => e.target.value}
+                onChange={(e) => updateMovieNote(e.target.value)}
+                defaultValue={curMovie.note}
             />
         </div>
     );
