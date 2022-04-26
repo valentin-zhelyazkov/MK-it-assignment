@@ -3,7 +3,6 @@ import { auth, db } from '../database/db';
 import { collection, getDocs } from "firebase/firestore";
 import { Box, Button, ImageList, ImageListItem } from '@mui/material';
 import { Link } from 'react-router-dom';
-import MovieDataContext from '../context/MovieDataContext';
 
 const Home = (): React.ReactElement => {
     const [movies, setMovies] = React.useState([]);
@@ -14,11 +13,12 @@ const Home = (): React.ReactElement => {
                 //@ts-ignore
                 if (auth.currentUser.uid === movie.data().userID) {
                     //@ts-ignore
-                    setMovies(prevState => [...prevState, movie.data()]);
+                    const setMovieWithId = { ...movie.data(), movieId: movie.id };
+                    //@ts-ignore
+                    setMovies(prevState => [...prevState, setMovieWithId]);
                 }
             }
         })
-
     }
 
     React.useEffect(() => {
@@ -52,11 +52,14 @@ const Home = (): React.ReactElement => {
             <ImageList sx={{ width: '80%', height: 450, margin: '20px auto' }} cols={4} gap={25}>
                 {movies.map((item, index) => (
                     <ImageListItem key={index}>
-                        <img
-                            //@ts-ignore
-                            src={item.img}
-                            alt={item}
-                        />
+                        {/* @ts-ignore */}
+                        <Link to={`/detailsMovie/${item.movieId}`}>
+                            <img
+                                //@ts-ignore
+                                src={item.img}
+                                alt={item}
+                            />
+                        </Link>
                     </ImageListItem>
                 ))}
             </ImageList>

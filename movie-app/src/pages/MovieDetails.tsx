@@ -18,10 +18,6 @@ const MovieDetails = (): React.ReactElement => {
         return movie.show.id === Number(id);
     });
     //@ts-ignore
-    const curMovie = movies.find((ratingMovie) => {
-        return ratingMovie.id === movie.show.id
-    });
-    //@ts-ignore
     const updateMovieRating = async (rating) => {
         //@ts-ignore
         const curMovie = movies.find((ratingMovie) => {
@@ -39,7 +35,7 @@ const MovieDetails = (): React.ReactElement => {
         const curMovie = movies.find((noteMovie) => {
             return noteMovie.id === movie.show.id
         });
-        console.log('note', note);
+
         const userDoc = doc(db, "movies", curMovie.movieId);
         const newFields = { note: note };
         await updateDoc(userDoc, newFields);
@@ -79,8 +75,7 @@ const MovieDetails = (): React.ReactElement => {
                 <Rating
                     name="simple-controlled"
                     size="large"
-                    value={curMovie.rating}
-                    defaultValue={curMovie.rating}
+                    value={value}
                     onChange={(event, newValue) => {
                         setValue(newValue);
                         updateMovieRating(newValue);
@@ -94,7 +89,6 @@ const MovieDetails = (): React.ReactElement => {
                 rows={8}
                 sx={{ width: '50%' }}
                 onChange={(e) => updateMovieNote(e.target.value)}
-                defaultValue={curMovie.note}
             />
         </div>
     );
